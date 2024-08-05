@@ -9,10 +9,11 @@ import {
 let session;
 
 const grammar = await LlamaGrammar.getFor("json");
+const modelName = "capybarahermes-2.5-mistral-7b.Q5_K_M.gguf";
 
 export const initializeLlama = async () => {
   const model = new LlamaModel({
-    modelPath: path.join(".", "models", "capybarahermes-2.5-mistral-7b.Q5_K_M.gguf"),
+    modelPath: path.join(".", "models", modelName),
     gpuLayers: 64,
     temperature: 0.5,
     threads: 16,
@@ -33,13 +34,15 @@ export const initializeLlama = async () => {
     69: errors.Add("Some text. Id=" + ba.ToIdName().Name);
     75: line.Type = "Bank" + (isTransfer ? " (T)" : "");
     92: companyPractice = new Practice { CompanyName = companyDetails.CompanyName + " practice", CreatedDT = DateTime.Now };
+    101: errors.Add((cheque.IsCheque ? Resources.Cheque : "Deposit") + " amount " + cheque.ChequeAmount + " in line " + line.Details + " does not match line amount " + line.Amount);
   
     Output:
     {
         '61': 'messages.Add($"{cl.Name} Class {cl.Type} with id");',
         '69': 'errors.Add($"Some text. Id={ba.ToIdName().Name}");',
         '75': 'line.Type = $"Bank {isTransfer ? " (T)" : ""}";',
-        '92': 'companyPractice = new Practice { CompanyName = $"{companyDetails.CompanyName} practice", CreatedDT = DateTime.Now };'
+        '92': 'companyPractice = new Practice { CompanyName = $"{companyDetails.CompanyName} practice", CreatedDT = DateTime.Now };',
+        '101': 'errors.Add($"{cheque.IsCheque ? Resources.Cheque : "Deposit"} amount {cheque.ChequeAmount} in line {line.Details} does not match line amount {line.Amount}");'
     }
     `
    });
